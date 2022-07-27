@@ -12,6 +12,10 @@ class MyClient(discord.Client):
 
     async def on_message(self, message: Message):
         print(f'Message from {message.author}: {message.content}')
+        if message.author == self.user:
+            print(f'Message from self. Ignoring.')
+            return
+            
         await self.process_message(message)
 
     async def process_message(self, msg: Message):
