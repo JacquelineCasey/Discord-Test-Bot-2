@@ -15,7 +15,7 @@ class MyClient(discord.Client):
         if message.author == self.user:
             print(f'Message from self. Ignoring.')
             return
-            
+
         await self.process_message(message)
 
     async def process_message(self, msg: Message):
@@ -30,6 +30,6 @@ class MyClient(discord.Client):
 load_dotenv() # Does nothing if it can't find .env
 DISCORD_BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
 
-print('Preparing to Connect to Discord')
+print('Attempting to Connect to Discord')
 client = MyClient()
 client.run(DISCORD_BOT_TOKEN)
