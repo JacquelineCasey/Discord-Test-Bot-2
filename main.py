@@ -26,5 +26,6 @@ class MyClient(discord.Client):
 load_dotenv() # Does nothing if it can't find .env
 DISCORD_BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
 
+print('Preparing to Connect to Discord')
 client = MyClient()
 client.run(DISCORD_BOT_TOKEN)
