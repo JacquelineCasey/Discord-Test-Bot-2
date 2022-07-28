@@ -8,14 +8,12 @@ class Mock(Module):
     def __init__(self):
         self._last_msg_in_channels = {}
 
-    def activate(self, client: ModularClient):
-        client.add_message_handler(self.handle_message)
-        client.add_command_handler(self.handle_command)
-
-    async def handle_message(self, client: ModularClient, message: discord.Message):
+    @Module.message_handler
+    async def record_message(self, client: ModularClient, message: discord.Message):
         self._last_msg_in_channels[message.channel] = message.content
 
-    async def handle_command(self, client: ModularClient, message: discord.Message):
+    @Module.command_handler
+    async def mock_recorded_message(self, client: ModularClient, message: discord.Message):
         if (message.content.replace(" ", "") == '!mock'):
             print("Mock command triggered!")
             if message.channel in self._last_msg_in_channels.keys():
@@ -25,7 +23,6 @@ class Mock(Module):
                 )
             else:
                 print("Could not find message to mock.")
-
 
     def mock_string(s: str):
         output = ''

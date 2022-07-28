@@ -1,15 +1,33 @@
 
-from abc import ABC, abstractmethod
 import discord
 from discord.message import Message
 from discord.channel import TextChannel
 
+class Module():
+    # (static) sets that contain (unbound) functions that will be bound.
+    _on_command_handlers = set()
+    _on_message_handlers = set()
 
-class Module(ABC):
-    @abstractmethod
     def activate(self, client):
         '''Given a client, attaches all necessary hooks.'''
-        pass
+        self._attach(client.add_message_handler, Module._on_message_handlers)
+        self._attach(client.add_command_handler, Module._on_command_handlers)
+
+    # Locates decorated functions in self and attaches them to client.
+    def _attach(self, add_func, handler_set):
+        for func in handler_set:
+            if func in self.__class__.__dict__.values():
+                add_func(getattr(self, func.__name__))
+
+    @staticmethod
+    def command_handler(func):
+        Module._on_command_handlers.add(func)
+        return func
+
+    @staticmethod
+    def message_handler(func):
+        Module._on_message_handlers.add(func)
+        return func
 
 
 class ModularClient(discord.Client):
@@ -32,7 +50,6 @@ class ModularClient(discord.Client):
         
         A message handler is an async function that takes this client and a message. 
         '''
-
         self._message_handlers.append(func)
 
     def add_command_handler(self, func):
