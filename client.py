@@ -21,11 +21,15 @@ class Module():
 
     @staticmethod
     def command_handler(func):
+        '''A decorator that causes its target to be called with (client, message) 
+        when a command is read.'''
         Module._on_command_handlers.add(func)
         return func
 
     @staticmethod
     def message_handler(func):
+        '''A decorator that causes its target to be called with (client, message) 
+        when a non command message is read.'''
         Module._on_message_handlers.add(func)
         return func
 
