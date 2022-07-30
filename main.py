@@ -8,6 +8,7 @@ import os
 from client import ModularClient
 from modules.mock import Mock
 from modules.summon import Summon
+from modules.copypasta import CopyPasta
 
 
 def main():
@@ -17,6 +18,7 @@ def main():
     client = ModularClient()
     client.add_module(Mock())
     client.add_module(Summon())
+    client.add_module(CopyPasta("resources/copypasta.json"))
 
     print('Attempting to Connect to Discord')
     client.run(DISCORD_BOT_TOKEN)

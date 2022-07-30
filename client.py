@@ -69,6 +69,10 @@ class ModularClient(discord.Client):
         print(f'Logged on as {self.user}!')
 
     async def on_message(self, message: Message):
+        if message.author == self.user:
+            print("Message from self.")
+            return
+
         print(f'Message from {message.author}: {message.content}')
         if message.author.bot:
             print(f'Message from bot. Ignoring.')
