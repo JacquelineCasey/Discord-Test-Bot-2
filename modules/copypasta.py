@@ -1,14 +1,14 @@
 
 import discord
-import json
 import io
+import json
 
 from client import Module, ModularClient
 
 
 class CopyPasta(Module):
     def __init__(self, file_path):
-        self.triggers_to_pastas = {}
+        self.triggers_to_pastas: dict[str, str] = {}
         with io.open(file_path) as file:
             data: dict = json.load(file)
             
