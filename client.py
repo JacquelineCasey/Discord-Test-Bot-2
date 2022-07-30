@@ -70,10 +70,9 @@ class ModularClient(discord.Client):
 
     async def on_message(self, message: Message):
         if message.author == self.user:
-            print("Message from self.")
             return
 
-        print(f'Message from {message.author}: {message.content}')
+        print(f'>>> Message from {message.author}: {message.content}')
         if message.author.bot:
             print(f'Message from bot. Ignoring.')
             return
@@ -90,5 +89,5 @@ class ModularClient(discord.Client):
     # Helper functions
 
     async def send_message(self, channel: TextChannel, msg):
-        print(f'Sending message "{msg}" to channel "{channel}"')
+        print(f'>>> Sending message "{msg}" to channel "{channel}"')
         await channel.send(msg)
