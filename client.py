@@ -1,10 +1,13 @@
 
-from abc import ABC
+from abc import ABC, abstractmethod
+import asyncio
 import discord
 from discord.message import Message
 from discord.channel import TextChannel
 
+
 class Module(ABC):
+    """Represent a module that handles various discord events."""
     async def handle_message(self, client: 'ModularClient', message: discord.Message):
         pass
 
@@ -12,20 +15,32 @@ class Module(ABC):
         pass
 
 
+class Service(ABC):
+    """Represents a non discord service that the bot can react to."""
+    @abstractmethod
+    async def run(client: 'ModularClient'):
+        pass
+        
+
 class ModularClient(discord.Client):
     def __init__(self):
         super().__init__()
         self.modules: list[Module] = []
+        self.services: list[Service] = []
         self.command_char = '!'
         pass
 
     def add_module(self, module: Module):
         self.modules.append(module)
 
+    def add_service(self, service: Service):
+        self.services.append(service)
+
     # Handlers
 
     async def on_ready(self):
         print(f'Logged on as {self.user}!')
+        await asyncio.gather(*[s.run(self) for s in self.services])
 
     async def on_message(self, message: Message):
         if message.author == self.user:

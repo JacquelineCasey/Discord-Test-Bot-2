@@ -7,6 +7,7 @@ from client import ModularClient
 from modules.mock import Mock
 from modules.summon import Summon
 from modules.copypasta import CopyPasta
+from services.console import Console
 
 
 async def main():
@@ -14,9 +15,12 @@ async def main():
     DISCORD_BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
 
     client = ModularClient()
+
     client.add_module(Mock())
     client.add_module(Summon())
     client.add_module(CopyPasta("resources/copypasta.json"))
+
+    client.add_service(Console())
 
     print('Attempting to Connect to Discord')
     await client.start(DISCORD_BOT_TOKEN)
