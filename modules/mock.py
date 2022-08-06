@@ -8,12 +8,12 @@ class Mock(Module):
     def __init__(self):
         self._last_msg_in_channels = {}
 
-    @Module.message_handler
-    async def record_message(self, client: ModularClient, message: discord.Message):
+    async def handle_message(self, client: ModularClient, message: discord.Message):
+        '''Records the last sent message per channel'''
         self._last_msg_in_channels[message.channel] = message.content
 
-    @Module.command_handler
-    async def mock_recorded_message(self, client: ModularClient, message: discord.Message):
+    async def handle_command(self, client: ModularClient, message: discord.Message):
+        '''Mocks the last recorded message sent in that channel. Triggered by "!mock".'''
         if (message.content.replace(" ", "") == '!mock'):
             print("Mock command triggered!")
             if message.channel in self._last_msg_in_channels.keys():

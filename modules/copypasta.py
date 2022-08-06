@@ -16,8 +16,8 @@ class CopyPasta(Module):
             for trigger in data[key]["triggers"]:
                 self.triggers_to_pastas[trigger] = data[key]["text"]
 
-    @Module.message_handler
-    async def recite_pasta(self, client: ModularClient, message: discord.Message):
+    async def handle_message(self, client: ModularClient, message: discord.Message):
+        "Scans messages for keywords and recites appropriate copypasta."
         for trigger in self.triggers_to_pastas.keys():
             if trigger.lower() in message.content.lower():
                 print(f"Found copypasta trigger {trigger}")
