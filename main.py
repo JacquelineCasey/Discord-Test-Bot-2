@@ -13,6 +13,7 @@ from services.console import Console
 async def main():
     load_dotenv() # Does nothing if it can't find .env
     DISCORD_BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
+    BUILD = os.getenv('BUILD')
 
     client = ModularClient()
 
@@ -20,7 +21,8 @@ async def main():
     client.add_module(Summon())
     client.add_module(CopyPasta("resources/copypasta.json"))
 
-    # client.add_service(Console())
+    if BUILD == 'DEVELOPMENT':
+        client.add_service(Console())
 
     print('Attempting to Connect to Discord')
     await client.start(DISCORD_BOT_TOKEN)
