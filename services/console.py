@@ -60,6 +60,8 @@ class Console(Service):
                 message = ' '.join(message)
                 if self.channel is not None:
                     await client.send_message(self.channel, message)
+                else:
+                    print("Channel not set.")
 
             case _:
                 print('Unrecognized Command.')
