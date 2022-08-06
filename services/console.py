@@ -63,6 +63,9 @@ class Console(Service):
                 else:
                     print("Channel not set.")
 
+            case ['quit']:
+                exit()
+
             case _:
                 print('Unrecognized Command.')
 
