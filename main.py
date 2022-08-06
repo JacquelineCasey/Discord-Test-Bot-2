@@ -20,7 +20,7 @@ async def main():
     client.add_module(Summon())
     client.add_module(CopyPasta("resources/copypasta.json"))
 
-    client.add_service(Console())
+    # client.add_service(Console())
 
     print('Attempting to Connect to Discord')
     await client.start(DISCORD_BOT_TOKEN)
