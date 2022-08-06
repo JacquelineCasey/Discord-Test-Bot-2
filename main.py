@@ -1,7 +1,5 @@
 
-from ast import Mod
-import discord
-
+import asyncio
 from dotenv import load_dotenv
 import os
 
@@ -11,7 +9,7 @@ from modules.summon import Summon
 from modules.copypasta import CopyPasta
 
 
-def main():
+async def main():
     load_dotenv() # Does nothing if it can't find .env
     DISCORD_BOT_TOKEN = os.getenv('DISCORD_BOT_TOKEN')
 
@@ -21,8 +19,8 @@ def main():
     client.add_module(CopyPasta("resources/copypasta.json"))
 
     print('Attempting to Connect to Discord')
-    client.run(DISCORD_BOT_TOKEN)
+    await client.start(DISCORD_BOT_TOKEN)
 
 
 if __name__ == '__main__':
-    main()
+    asyncio.run(main())
