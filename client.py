@@ -14,6 +14,9 @@ class Module(ABC):
     async def handle_command(self, client: 'ModularClient', message: discord.Message):
         pass
 
+    async def handle_edit(self, client: 'ModularClient', before: discord.Message, after: discord.Message):
+        pass
+
 
 class Service(ABC):
     """Represents a non discord service that the bot can react to."""
@@ -59,6 +62,13 @@ class ModularClient(discord.Client):
             print(f'Normal message. Processing.')
             for m in self.modules:
                 await m.handle_message(self, message)
+
+    async def on_message_edit(self, before: discord.Message, after: discord.Message):
+        if before.content == after.content:
+            return
+        print(f'>>> Message edited by {after.author}: {after.content}')
+        for m in self.modules:
+            await m.handle_edit(self, before, after)
 
     # Helper functions
 
